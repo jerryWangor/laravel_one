@@ -1,0 +1,83 @@
+/* 这里设置全局css */
+@CHARSET "UTF-8";
+* { margin:0; padding:0; list-style:none; } /*设置列表没有标记*/
+html, body {  } /*隐藏移除，立体高度会被隐藏*/
+body, button, input, select, textarea { font:13px/1.5 tahoma,arial,Microsoft YaHei; font-family: '宋体', Arial; }
+a { text-decoration: none; }
+a:hover { text-decoration: none; color: #fe7216; } /*鼠标移上去的时候*/
+a:link { color: #000 ; display: inline-block;} /*链接未点击上去时候*/
+a:visited { color: #000 } /*链接已经点击过的*/
+/*a:active { color: #000 } 是介于hover visited 之间的一个状态，可以说是链接被按下时候的状态*/
+i {font-style: normal;}
+img {border-style: none;vertical-align: middle;}
+frameset {framespacing:0; frameborder:0; border:0;}
+frame {frameborder:0; noresize:noresize; marginwidth:0; marginheight:0;}
+
+input[type='text'] {
+    padding: 6px 5px 6px 5px;
+    border: 1px solid #bdcae0;
+    border-radius: 4px;
+    line-height: 16px;
+    outline: none;
+    background-color: expression(this.readOnly==true?"#eee":"#fff");
+}
+/* 公共的class */
+.textr {text-align: right;}
+.textl {text-align: left;}
+.textc {text-align: center;}
+.floatl {float: left;}
+.floatr {float: right;}
+.floatc {clear:both;}
+.clear{display: block;float:none;clear:both;overflow:hidden;visibility:hidden;width:0;height:0;background:none;border:0;font-size:0;}
+.overh {overflow: hidden;}
+.point {cursor: pointer;}
+.displayon {display: block;}
+.displayoff {display: none;}
+.relapos {position: relative;}
+.absopos {position: absolute;}
+.btn {width: 60px; height: 24px;}
+.bluebtn {border-radius: 5px; font-size: 12px; color: #fff;background: #6c9dfd;}
+.bluebtn:hover {color: #fff; background: #5b73d9; text-decoration: none;}
+a.bluebtn {display: inline-block; text-align: center;}
+input.bluebtn {cursor:pointer; border:none;}
+.submitbtn {width: 70px; height: 30px; line-height: 30px; background-color: #71b6cc; text-align: center; border-radius: 5px; cursor: pointer;}
+.submitbtn:hover { background-color: #3f9ccc; }
+.colorblack {color: #000000;}
+.loading {background-image: url('../images/loading.gif'); background-repeat: no-repeat; padding-left: 20px;}
+
+.icon{display: inline-block; vertical-align: middle; background-image: url('../images/icon.png'); background-repeat: no-repeat; width: 40px; height: 40px; position: absolute; left: 0; top: 0; background-color: #F5F4F4;}
+.icon1{background-position:-170px -70px;}
+.icon2{background-position:-210px -70px;}
+.icon3{background-position:-250px -70px;}
+.icon4{background-position:-290px -70px;}
+.icon5{background-position:-171px -72px;}
+.icon6{background-position:-362px -122px;}
+.icon7{background-position:-322px -122px;}
+.icon8{background-position:-404px -122px;}
+
+.sorticon{display: inline-block; vertical-align: middle; background-image: url('../images/icon_less.png'); background-repeat: no-repeat; width: 16px; height: 30px;}
+.sorticon1{background-position:0px 0px;}
+.sorticon2{background-position:-16px 0px;}
+
+.icontips { background:url(../images/icon_tips.png) no-repeat; }
+.icontips1 { background-position: -5px -10px; width: 25px; height: 20px;}
+.icontips2 { background-position: -5px -47px; width: 25px; height: 20px;}
+.icontips3 { background-position: -5px -82px; width: 25px; height: 20px;}
+.icontips4 { background-position: -5px -117px; width: 25px; height: 20px;}
+
+.iconnum{ background:url(../images/number.png) no-repeat;}
+.iconnum1{ background-position: 0px 0px; width:10px;}
+.iconnum2{ background-position: -33px 0px; width:14px;}
+.iconnum3{ background-position: -68px 0px; width:14px;}
+.iconnum4{ background-position: -101px 0px; width:14px;}
+
+.btn_icon{display: inline-block; vertical-align: middle; background-image: url('../images/btn_icon.png'); background-repeat: no-repeat; width: 26px; height: 26px;}
+.btn_icon_add { background-position: -294px -159px; }
+.btn_icon_edit { background-position: -337px -199px; }
+.btn_icon_managerule { background-position: -294px -278px; }
+.btn_icon_manageuser { background-position: -337px -278px; }
+.btn_icon_sendmore { background-position: -127px -523px; }
+.btn_icon_dxtips { background-position: -127px -523px; }
+.btn_icon_showaddlist { background-position: -84px -599px; }
+.btn_icon_changeaddlist { background-position: -169px -599px; }
+.btn_icon_changetel { background-position: -339px -237px; }

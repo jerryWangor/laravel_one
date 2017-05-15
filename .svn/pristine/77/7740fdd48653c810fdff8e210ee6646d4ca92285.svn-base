@@ -1,0 +1,51 @@
+<?php 
+	namespace App\Http\Controllers\Admin;
+	use App\Http\Controllers\Controller;
+	use App\Http\Model\Admin\CommonModel;
+    use Illuminate\Support\Facades\Session;
+    use JerryLib\DB\tabHad;
+    use JerryLib\DB\Pager;
+    use JerryLib\User\Auth;
+    use JerryLib\System;
+    use Request;
+
+	class CommonController extends Controller {
+
+		public function getIndex() {
+            $naction = trim(Request::getRequestUri(), '/');
+            list($module, $controller, $action) = explode('/', $naction);
+            $actiondata = Session::get('_AUTH_MOUDLES');
+            return view($naction, ['actiondata'=>$actiondata[$module]['controller'][$controller]['action']]);
+		}
+
+        public function getAdd() {
+            return view(trim(Request::getRequestUri(), '/'));
+        }
+
+        public function getEdit() {
+            return view(trim(Request::getRequestUri(), '/'));
+        }
+
+        public function postAjaxlist(Request $Request) {
+            if(method_exists($this, 'showFields')) {
+                $tableArr = $this->showFields();
+            } else {
+                $tableArr = ['table'=>'p_users', 'fileds'=>'*'];
+            }
+            //查询满足条件的记录数
+            $allnum = tabHad::Init($tableArr['table'])->select('count(*) num');
+            $allnum = $allnum[0]['num'];
+            if($allnum>0) {
+                //创建分页对象
+                $page = intval($Request::input('pageNum')); //当前页数
+                $pager = new Pager($allnum, $page, 'getPageData', 10);
+                $find = is_array($tableArr['fileds']) ? implode(',', $tableArr['fileds']) : $tableArr['fileds'];
+                $list = tabHad::Init($tableArr['table'])->select($find, '', $pager->limit());
+                $showpager = $pager->showPager();
+                $return = array('ret'=>0, 'showpager'=>$showpager, 'list'=>$list);
+                return response()->json($return);
+            }
+        }
+
+	}
+?>

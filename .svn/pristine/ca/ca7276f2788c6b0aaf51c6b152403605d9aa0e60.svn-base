@@ -1,0 +1,33 @@
+<?php namespace Jerry\Config;
+
+	/**
+	 * 此文件定义数据库配置和每个表单必须验证的字段和验证方式
+	 */
+	return [
+		'mysql' => [
+			'driver'    => 'mysql',
+            'dbhost'    => '127.0.0.1',
+            'dbname'    => 'laravel',
+            'dbuser'    => 'jerryjin',
+            'dbpasswd'  => 'pw!@#$$#@!wj',
+			'dbport'	=> 3306,
+            'charset'   => 'utf8',
+            'collation' => 'utf8_general_ci',
+            'prefix'    => '',
+            'strict'    => false,
+		],
+	
+		'User' => [
+            '_validate' => [
+                'account'       => 'required|unique|checkuser',
+                'password'      => 'required|checkpwd',
+                'nickname'      => 'required|checknickname',
+                'status'        => 'required|checknumber',
+            ],
+            '_auto' => [
+                'fatherlink'    => 'getuid',
+                'createtime'    => 'getdatetime',
+            ]
+		]
+	];
+	

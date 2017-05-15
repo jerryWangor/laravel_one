@@ -1,0 +1,64 @@
+<?php 
+	namespace App\Http\Controllers\Admin;
+
+    use Illuminate\Support\Facades\Session;
+	use JerryLib\Model\CommonModel;
+	use JerryLib\System\Common;
+    use Request;
+
+    class AnswerController extends CommonController {
+
+        /**
+         * 用户列表
+         */
+        public function getIndex() {
+
+            // 读取当前用户的车间
+            $sql = "select a.cj_id,b.name from (select cj_id from p_users where uid=?) as a left join chejian as b on a.cj_id=b.id";
+
+            $data = $this->common_model->prepare($sql, $this->uid)->fetchRow();
+
+            if($data) {
+                // 查询该车间下所有的职工
+                $sql = "select uid,nickname from p_users where cj_id=?";
+                $userinfo = $this->common_model->prepare($sql, $data['cj_id'])->fetchAll();
+            }
+
+            return view($this->naction, [ 'data'=>$data, 'userinfo'=>$userinfo ]);
+        }
+
+        /**
+         * 开始答题
+         */
+        public function postStart() {
+            // 当前答题的车间和职工
+            $chejian = $this->input['chejian'];
+            $uid = $this->input['uid'];
+
+            // 如果是提交答题的话
+            if(isset($this->input['submit'])) {
+                stop($this->input);
+            }
+
+            // 从题库中随机抽取10道题
+            $data_ids = $this->common_model->prepare("select id from question")->fetchAll();
+            $ids = array();
+            foreach ($data_ids as $key => $value) {
+                $ids[$value['id']] = $value['id'];
+            }
+            // 取十个随机的id
+            $new_ids = array_rand($ids, 10);
+            $ids_str = implode(',', $new_ids);
+
+            $sql = "select * from question where id in ($ids_str)";
+
+            $data = $this->common_model->prepare($sql)->fetchAll();
+
+            $sql = "select uid,nickname from p_users where uid=?";
+            $userinfo = $this->common_model->prepare($sql, $uid)->fetchRow();
+
+            return view($this->naction, [ 'data'=>$data, 'chejian'=>$chejian, 'uid'=>$uid, 'userinfo'=>$userinfo ]);
+        }
+
+    }
+?>

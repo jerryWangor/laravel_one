@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>" />
+        <!-- 引入标签库 -->
+        <tagLib name="html" />
+        <!-- 加载头部公共文件 -->
+        <link href="<?php echo e(asset('/css/style.css')); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo e(asset('/css/common.css')); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo e(asset('/js/jquery-ui/jquery-ui.min.css')); ?>" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="<?php echo e(asset('/js/jquery-1.7.2.min.js')); ?>"></script>
+        <script type="text/javascript" src="<?php echo e(asset('/js/jquery-ui/jquery-ui.min.js')); ?>"></script>
+        <script type="text/javascript" src="<?php echo e(asset('/js/common.js')); ?>"></script>
+        <script type="text/javascript" src="<?php echo e(asset('/js/function.js')); ?>"></script>
+        <script type="text/javascript" src="<?php echo e(asset('/js/check.js')); ?>"></script>
+        <script type="text/javascript">
+//            getPageData(1);
+//            dotable();
+        </script>
+    </head>
+    <body>
+        <!-- 主页面开始 -->
+        <div id="user_add" class="user_add">
+            <form id="user_form" name="user_form" action="<?php echo e(URL('Admin/User/insert')); ?>" method="post">
+                <table class="user_table" id="user_table">
+                    <tr>
+                        <td width="120" class="textr">账号</td>
+                        <td width="300"><input style="width: 100%;" type="text" id="account" name="account"></td>
+                        <td class="error_tips colorblack"><span class="icontips floatl"></span><span class="content"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="textr">密码</td>
+                        <td><input style="width: 100%;" type="password" id="password" name="password"></td>
+                        <td class="error_tips colorblack"><span class="icontips floatl"></span><span class="content"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="textr">昵称</td>
+                        <td><input style="width: 100%;" type="text" id="nickname" name="nickname"></td>
+                        <td class="error_tips colorblack"><span class="icontips floatl"></span><span class="content"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="textr">状态</td>
+                        <td><input style="width: 35%;" type="radio" id="status" name="status" value=1 checked>启用
+                            <input style="width: 35%;" type="radio" id="status" name="status" value=0>禁用</td>
+                        <td class="error_tips colorblack"><span class="icontips floatl"></span><span class="content"></span></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>

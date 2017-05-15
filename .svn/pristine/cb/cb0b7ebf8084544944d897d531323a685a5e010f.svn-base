@@ -1,0 +1,123 @@
+<?php 
+	namespace App\Http\Controllers\Admin;
+
+	use JerryLib\Model\CommonModel;
+    use JerryLib\System\Common;
+    use Request;
+
+    class RulesController extends CommonController {
+
+        /**
+         * 权限列表
+         */
+        public function getIndex() {
+
+            $page = isset($this->input['page']) ? $this->input['page'] : 1;
+            // 查询用户列表
+            $wheres = $params = array();
+            if(isset($this->input['remark'])) {
+                $wheres[] = "remark like '%{$this->input['remark']}%'";
+                // $params[] = $this->input['remark'];
+            }
+
+            $where = count($wheres)>0 ? ' where ' . implode(' and ', $wheres) : '';
+
+            $sql = "select * from p_rules $where";
+            
+            $data = $this->common_model->prepare($sql, $params)->fetchPage($page, 20);
+            
+            $page_str = Common::page_str($data, $this->naction);
+
+            return $this->render(['data'=>$data['page_list'], 'page_str'=>$page_str]);
+        }
+
+        /**
+         * 新增权限
+         */
+        public function anyAdd() {
+
+            // 插入/修改权限
+            if(isset($this->input['id'])) {
+                $id = intval($this->input['id']);
+
+                $sql = "select * from p_rules where id=?";
+
+                $data = $this->common_model->prepare($sql, $id)->fetchOne();                
+            }
+
+            if(isset($this->input['submit'])) {
+                $insert_arr = [
+                    'rulename'  =>  $this->input['rulename'],
+                    'remark'  =>  $this->input['remark'],
+                    'status'  =>  $this->input['status'],
+                    'rulelevel'  =>  $this->input['rulelevel'],
+                    'sort'  =>  $this->input['sort'],
+                    'pid'  =>  $this->input['pid'],
+                    'createtime'  =>  date('Y-m-d H:i:s'),
+                ];
+
+                stop($insert_arr);
+
+                $result = $this->common_model->insert_command('p_rules', $insert_arr);
+                if($result) {
+                    $message = '权限插入/更新成功！';
+                } else {
+                    $message = '权限插入/更新失败！';
+                }
+
+                stop($message);
+            }
+
+            // 查询父操作
+            $pid_data = $this->common_model->prepare("select id,remark,rulelevel from p_rules where rulelevel<3")->fetchAll();
+
+            return $this->render(['pid_data'=>$pid_data]);
+        }
+
+        public function postInsert(Request $request) {
+            //首先获取所有当前表模型
+            $post = $request::all();
+            list($module, $controller, $action) = explode('/', trim(Request::getRequestUri(), '/'));
+            //在插入数据的时候，我们首先要验证外来参数
+            //1.验证合法性
+            //2.验证是否唯一
+            //3.验证是否必须
+            if(!Common::checkUser($post['account'])) {
+                throw new \Exception('用户名格式错误');
+            }
+            if(!Common::checkPwd($post['password'])) {
+                throw new \Exception('密码格式错误');
+            }
+            if(!(Common::checkUser($post['nickname'], 'CN'))) {
+                throw new \Exception('昵称格式错误');
+            }
+            $post['status'] = (int)$post['status'];
+            if($post['status']!=0 && $post['status']!=1) {
+                throw new \Exception('状态格式错误');
+            }
+            if(isset($post['_token'])) {
+                if(session('_token') != $post['_token']) {
+                    throw new \Exception('token错误');
+                }
+                unset($post['_token']);
+            }
+            //验证当前用户名是否唯一
+            $data = tabHad::Init('p_users')->select('uid', "account='{$post['account']}'");
+            if(count($data)>0) {
+                throw new \Exception('用户已存在');
+            }
+
+            //通过验证然后入库
+            $post['password'] = Common::password($post['account'], $post['password']);
+            $post['createtime'] = date('Y-m-d H:i:s');
+            $uid = tabHad::Init('p_users')->insert($post);
+            if($uid>0) {
+                return response()->json(array('ret'=>0, 'msg'=>'数据插入成功'));
+            } else {
+                return response()->json(array('ret'=>-1, 'msg'=>'数据插入失败'));
+            }
+        }
+
+
+	}
+?>

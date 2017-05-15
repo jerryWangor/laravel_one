@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>桂花中学182班|账号登录</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!-- 加载头部公共文件 -->
+        <link href="<?php echo e(asset('/css/style.css')); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo e(asset('/css/common.css')); ?>" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="<?php echo e(asset('/js/jquery-1.7.2.min.js')); ?>"></script>
+        <script type="text/javascript" src="<?php echo e(asset('/js/common.js')); ?>"></script>
+        <script type="text/javascript" src="<?php echo e(asset('/js/function.js')); ?>"></script>
+        <script type="text/javascript" src="<?php echo e(asset('/js/check.js')); ?>"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#getverify").click(function () {
+                    telephone = $("#username").val();
+                    url = "__URL__/pushverify";
+                    pushverify();
+                });
+            });
+        </script>
+	</head>
+	<body>
+        <!--main-->
+        <div class="login">
+            <div class="login_center">
+                <div class="login_bg"></div>
+                <div class="login_form">
+                    <h2 class="login_head">登录</h2>
+                    <div class="login_error" style="display: none;">
+                        <span id="error_tip"></span>
+                    </div>
+                    <form class="submit_form" id="login_form" method="post" action="__URL__/check_login">
+                        <ul class="login_list">
+                            <li>
+                                <span class="login_input" style="width:288px;">
+                                    <label class="icon icon1"></label>
+                                    <input type="text" tabindex="1" style="width:220px;" class="login_text" id="telephone" name="telephone" value="" placeholder="请输入手机号/邮箱/用户名" />
+                                </span>
+                            </li>
+                            <li>
+                                <span class="login_input" style="width:194px;">
+                                    <label class="icon icon3"></label>
+                                    <input type="text" tabindex="2" style="width:126px;" class="login_text" id="dxverify" name="dxverify" value="" placeholder="请输入短信验证码" />
+                                </span>
+                                <input value="点击获取" style="font-size: 14px" class="bluebtn verify_btn" id="getverify" type="button"/>
+                            </li>
+                            <li>
+                                <input type="submit" value="登录" class="login_submit bluebtn" />
+                                <a href="__URL__/register" style="color: #ccc">免费注册</a>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

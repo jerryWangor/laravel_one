@@ -1,0 +1,9 @@
+<?php 
+	namespace App\Http\Model\Admin;
+	use Illuminate\Database\Eloquent\Model;
+	class CommonModel extends Model {
+		public function index() {
+
+		}
+	}
+?>
